@@ -12,21 +12,25 @@ fi
 . include/path
 . include/runners
 
+COMMAND=$1
 JOBS=4
 PREFIX=$HOME/local
 SRC_DIR=$PREFIX/src
 SCRIPTS_DIR=$(abspath scripts)
 INSTALLED_DIR=$(abspath .installed)
+SANDBOX_DIR=$(abspath .sandbox)
 
 only=$2
 
 export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
 mkdir -p $SRC_DIR
+mkdir -p $INSTALLED_DIR
+mkdir -p $SANDBOX_DIR
 
 for script_name in $(ls $SCRIPTS_DIR)
 do
     if [ -z $only ] || [ $only = $script_name ]
     then
-        (run_install $script_name)
+        (run_$COMMAND $script_name)
     fi
 done

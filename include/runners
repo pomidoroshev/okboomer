@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
 function run_install() {
+    # run_install <script>
+
     script_name=$1
     INSTALLED=$INSTALLED_DIR/$script_name
+    INSTALLED_FILE_LIST="$INSTALLED.file-list"
+    INSTALLED_DIR_LIST="$INSTALLED.dir-list"
+
     DEPS=
 
     . "$SCRIPTS_DIR/$script_name"
@@ -19,8 +24,43 @@ function run_install() {
 
     if [ ! -f $INSTALLED ] || [ $HEAD != $(cat $INSTALLED) ]
     then
+        tmp_PREFIX=$PREFIX
+
+        CURRENT_SANDBOX_DIR=$SANDBOX_DIR/$script_name
+        mkdir $CURRENT_SANDBOX_DIR
+
+        PREFIX=$CURRENT_SANDBOX_DIR
+
         cd $NAME
         install
-        echo $HEAD > $INSTALLED_DIR/$script_name
+        PREFIX=$tmp_PREFIX
+
+        (
+            cd $CURRENT_SANDBOX_DIR
+            find . ! -type d ! -path . > $INSTALLED_FILE_LIST
+            find . -type d ! -path . | awk '{ print length(), $0 | "sort -nr" }' | awk '{ print $2 }' > $INSTALLED_DIR_LIST
+        )
+        cp -R $CURRENT_SANDBOX_DIR/* $PREFIX
+        rm -rf $CURRENT_SANDBOX_DIR
+
+        echo $HEAD > $INSTALLED
     fi
+}
+
+function run_uninstall() {
+    # run_uninstall <script>
+
+    script_name=$1
+    INSTALLED=$INSTALLED_DIR/$script_name
+    INSTALLED_FILE_LIST="$INSTALLED.file-list"
+    INSTALLED_DIR_LIST="$INSTALLED.dir-list"
+
+    (
+        cd $PREFIX
+        xargs rm -f < $INSTALLED_FILE_LIST
+        xargs rmdir < $INSTALLED_DIR_LIST || true
+    )
+    rm -f $INSTALLED_DIR_LIST
+    rm -f $INSTALLED_FILE_LIST
+    rm -f $INSTALLED
 }
