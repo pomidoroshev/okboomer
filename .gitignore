@@ -1,1 +1,3 @@
 .installed/
+.sandbox/
+scripts/local/

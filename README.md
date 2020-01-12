@@ -11,5 +11,4 @@ okboomer install [pkg_name]
 ## Currently supported apps
 
 - `vim`
-- `cpython`
 - `mosh` (with `protobuf` dependency)
