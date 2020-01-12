@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+NAME=vim
+URL=https://github.com/vim/vim.git
+
+function download() {
+    git_clone_or_pull $URL $NAME
+}
+
+function install() {
+    ./configure --prefix=$PREFIX
+    make -j$JOBS
+    make install
+}

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+NAME=mosh
+URL=https://github.com/mobile-shell/mosh.git
+DEPS="protobuf"
+
+function download() {
+    git_clone_or_pull $URL $NAME
+}
+
+function install() {
+    ./autogen.sh
+    ./configure --prefix=$PREFIX
+    make -j$JOBS
+    make install
+}

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+NAME=protobuf
+URL=https://github.com/protocolbuffers/protobuf.git
+
+function download() {
+    git_clone_or_pull $URL $NAME
+}
+
+function install() {
+    ./autogen.sh
+    ./configure --prefix=$PREFIX
+    make -j$JOBS
+    make install
+}

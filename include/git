@@ -1,0 +1,21 @@
+#!/usr/bin/env
+function _git_clone() {
+    # git_clone <url> <path>
+    git clone --recurse-submodules -j8 $1 $2
+}
+
+function _git_pull() {
+    # git pull <path>
+    git -C $1 pull
+}
+
+function git_clone_or_pull() {
+    # git_clone_or_pull <url> <path>
+    if [ ! -d $2 ]
+    then
+        _git_clone $1 $2
+    else
+        _git_pull $2
+    fi
+    HEAD=$(git -C $2 rev-parse HEAD)
+}
