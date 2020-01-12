@@ -54,3 +54,4 @@ $ ./okboomer uninstall vim
 
 - `vim`
 - `mosh` (with `protobuf` dependency)
+- `tmux`
