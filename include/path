@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+function abspath() {
+    echo "$(cd "$(dirname "$1")"; pwd -P)/$(basename "$1")"
+}

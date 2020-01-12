@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+function run_install() {
+    script_name=$1
+    INSTALLED=$INSTALLED_DIR/$script_name
+    DEPS=
+
+    . "$SCRIPTS_DIR/$script_name"
+
+    for dep in $DEPS
+    do
+        (run_install $dep)
+    done
+
+    echo "run_installing $script_name"
+
+    cd $SRC_DIR
+    download
+
+    if [ ! -f $INSTALLED ] || [ $HEAD != $(cat $INSTALLED) ]
+    then
+        cd $NAME
+        install
+        echo $HEAD > $INSTALLED_DIR/$script_name
+    fi
+}

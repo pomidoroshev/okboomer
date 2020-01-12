@@ -1,4 +1,4 @@
-#!/usr/bin/env
+#!/usr/bin/env bash
 function _git_clone() {
     # git_clone <url> <path>
     git clone --recurse-submodules -j8 $1 $2
