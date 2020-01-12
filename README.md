@@ -6,7 +6,7 @@ A simple tool for building and installing apps from source code.
 
 ```bash
 $ mkdir ~/local
-$ echo "export PATH=$HOME/local/bin:$PATH" > ~/.bashrc
+$ echo "export PATH=$HOME/local/bin:$PATH" >> ~/.bashrc
 $ cd ~/local
 $ git clone https://github.com/pomidoroshev/okboomer.git
 $ cd okboomer
