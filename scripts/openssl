@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+NAME=openssl
+URL=https://github.com/openssl/openssl.git
+
+function download() {
+    git_clone_or_pull $URL $NAME
+}
+
+function install() {
+    make clean || true
+    ./config --prefix=$SANDBOX_DIR
+    make -j$JOBS
+    make -j$JOBS install
+}

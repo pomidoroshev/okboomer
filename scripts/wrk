@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+NAME=wrk
+URL=https://github.com/wg/wrk.git
+DEPS="openssl"
+
+function download() {
+    git_clone_or_pull $URL $NAME
+}
+
+function install() {
+    make clean || true
+    make -j$JOBS WITH_OPENSSL=$PREFIX
+    test wrk
+    mkdir -p $SANDBOX_DIR/bin
+    cp wrk $SANDBOX_DIR/bin
+}
